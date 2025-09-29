@@ -29,7 +29,9 @@ namespace IoTFarmSystem.UserManagement.Infrastructure.Persistance.Repositories
         }
         public async Task<TenantDto?> GetByIdQueryAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            var tenant = await _dbContext.Tenants.Select(t => new TenantDto
+            var tenant = await _dbContext.Tenants
+                .Where(t => t.Id == id)
+                .Select(t => new TenantDto
             {
                 Id = t.Id,
                 Name = t.Name,

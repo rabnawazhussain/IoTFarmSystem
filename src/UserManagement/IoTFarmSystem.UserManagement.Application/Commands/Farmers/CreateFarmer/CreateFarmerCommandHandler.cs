@@ -47,7 +47,7 @@ public class CreateFarmerCommandHandler : IRequestHandler<CreateFarmerCommand, R
         {
             Guid tenantId;
             if (!request.IsSelfSignUp)
-            {
+            {  
                 if (_currentUser.IsSystemAdmin())
                 {
                     tenantId = request.TenantId;

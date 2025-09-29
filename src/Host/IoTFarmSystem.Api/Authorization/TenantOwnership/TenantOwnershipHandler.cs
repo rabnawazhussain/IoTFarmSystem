@@ -16,10 +16,20 @@ namespace IoTFarmSystem.Api.Authorization.TenantOwnership
             AuthorizationHandlerContext context,
             TenantOwnershipRequirement requirement)
         {
-            // Check if user has the required permission within their tenant scope
-            if (_currentUser.HasPermission(requirement.Permission) && _currentUser.TenantId.HasValue)
+            // 1. System Admins always succeed
+            if (_currentUser.IsSystemAdmin())
             {
-                // Additional tenant-specific validation can be added here
+                context.Succeed(requirement);
+                return Task.CompletedTask;
+            }
+
+            // 2. Must have the permission itself
+            if (!_currentUser.HasPermission(requirement.Permission))
+                return Task.CompletedTask;
+
+            // 3. Must belong to a tenant
+            if (_currentUser.TenantId.HasValue)
+            {
                 context.Succeed(requirement);
             }
 

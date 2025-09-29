@@ -1,5 +1,4 @@
 ﻿using IoTFarmSystem.UserManagement.Application.Contracts.Persistance;
-using IoTFarmSystem.UserManagement.Domain.Entites;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;

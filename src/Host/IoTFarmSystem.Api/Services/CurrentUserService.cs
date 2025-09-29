@@ -8,11 +8,22 @@ namespace IoTFarmSystem.Api.Services
     public class CurrentUserService : ICurrentUserService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ILogger<CurrentUserService> _logger;
+
         private ClaimsPrincipal? User => _httpContextAccessor.HttpContext?.User;
 
-        public CurrentUserService(IHttpContextAccessor httpContextAccessor)
+        public CurrentUserService(
+            IHttpContextAccessor httpContextAccessor,
+            ILogger<CurrentUserService> logger)
         {
             _httpContextAccessor = httpContextAccessor;
+            _logger = logger;
+
+            // Log all claims on service construction
+            foreach (var claim in User?.Claims ?? Enumerable.Empty<Claim>())
+            {
+                _logger.LogInformation("Claim {Type} = {Value}", claim.Type, claim.Value);
+            }
         }
 
         // Basic user info
@@ -44,10 +55,16 @@ namespace IoTFarmSystem.Api.Services
             User?.FindAll("permission").Any(c => c.Value == permission) ?? false;
 
         public bool HasRole(string role) =>
-            User?.FindAll("role").Any(c => c.Value == role) ?? false;
-
-        public IEnumerable<string> GetRoles() =>
-            User?.FindAll("role").Select(c => c.Value) ?? Enumerable.Empty<string>();
+        GetRoles().Contains(role);
+        public IEnumerable<string> GetRoles()
+        {
+            // 🔑 Normalize: check both ClaimTypes.Role and "role"
+            return User?.Claims
+                .Where(c => c.Type == ClaimTypes.Role || c.Type == "role")
+                .Select(c => c.Value)
+                .Distinct()
+                ?? Enumerable.Empty<string>();
+        }
 
         public IEnumerable<string> GetPermissions() =>
             User?.FindAll("permission").Select(c => c.Value) ?? Enumerable.Empty<string>();

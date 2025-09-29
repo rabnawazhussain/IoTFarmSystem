@@ -58,7 +58,6 @@ namespace IoTFarmSystem.UserManagement.Infrastructure.Identity
                 foreach (var role in roles)
                 {
                     claims.Add(new Claim("role", role));
-                    claims.Add(new Claim(ClaimTypes.Role, role));
                 }
 
                 // Add effective permissions (includes both explicit and role-based)
