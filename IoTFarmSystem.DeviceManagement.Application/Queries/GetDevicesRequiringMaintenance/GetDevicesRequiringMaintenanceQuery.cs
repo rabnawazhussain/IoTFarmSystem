@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using IoTFarmSystem.DeviceManagement.Application.Dtos;
+using IoTFarmSystem.SharedKernel.Abstractions;
+using MediatR;
+
 
 namespace IoTFarmSystem.DeviceManagement.Application.Queries.GetDevicesRequiringMaintenance
 {
-    internal class GetDevicesRequiringMaintenanceQuery
-    {
-    }
+    public record GetDevicesRequiringMaintenanceQuery(int DaysSinceLastMaintenance = 90)
+        : IRequest<Result<List<DeviceDto>>>;
 }

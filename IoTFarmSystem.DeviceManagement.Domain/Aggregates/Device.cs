@@ -9,7 +9,7 @@ namespace IoTFarmSystem.DeviceManagement.Domain.Aggregates
         public string DeviceName { get; private set; }
         public string SerialNumber { get; private set; }
         public Guid TenantId { get; private set; } // Links to Tenant in UserManagement
-
+        public bool IsActive { get; private set; }
         // Azure IoT Hub details
         public string AzureIotDeviceId { get; private set; }
         public string ConnectionString { get; private set; }

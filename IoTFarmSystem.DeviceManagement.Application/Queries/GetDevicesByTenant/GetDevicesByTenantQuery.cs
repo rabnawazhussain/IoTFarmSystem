@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using IoTFarmSystem.DeviceManagement.Application.Dtos;
+using IoTFarmSystem.SharedKernel.Abstractions;
+using MediatR;
+
 
 namespace IoTFarmSystem.DeviceManagement.Application.Queries.GetDevicesByTenant
 {
-    internal class GetDevicesByTenantQuery
-    {
-    }
+    public record GetDevicesByTenantQuery(Guid TenantId) : IRequest<Result<List<DeviceDto>>>;
 }

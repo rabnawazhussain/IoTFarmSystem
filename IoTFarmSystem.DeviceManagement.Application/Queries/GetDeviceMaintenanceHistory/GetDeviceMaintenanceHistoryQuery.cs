@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using IoTFarmSystem.DeviceManagement.Application.Dtos;
+using IoTFarmSystem.SharedKernel.Abstractions;
+using MediatR;
+
 
 namespace IoTFarmSystem.DeviceManagement.Application.Queries.GetDeviceMaintenanceHistory
 {
-    internal class GetDeviceMaintenanceHistoryQuery
-    {
-    }
+    public record GetDeviceMaintenanceHistoryQuery(Guid DeviceId) : IRequest<Result<List<MaintenanceRecordDto>>>;
 }
